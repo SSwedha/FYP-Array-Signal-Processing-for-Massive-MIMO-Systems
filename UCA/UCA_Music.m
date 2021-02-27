@@ -21,7 +21,7 @@ ph =(1:0.5:90);
 p=zeros(length(th),length(ph));
 for i = 1:length(th)
     for j = 1:length(ph)
-        a=getUCASteeringVec([th(i)*pi/180; ph(j)*pi/180].*pi/180,M,r,lambda);
+        a=getUCASteeringVec([th(i); ph(j)].*pi/180,M,r,lambda);
         p(i,j)=10*log10(abs(1/((a'*eigv)*(eigv'*a))));
     end
 end
