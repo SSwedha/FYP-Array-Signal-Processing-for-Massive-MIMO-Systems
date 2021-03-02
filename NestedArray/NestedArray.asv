@@ -3,7 +3,7 @@ fc=2.4e9;
 c=physconst("lightspeed");
 lambda=(c/fc);
 M1=3;
-M2=3;
+M2=;
 d=lambda/2;
 d1=lambda/2;
 d2=(M1+1)*d1;
@@ -13,8 +13,8 @@ A1=getManifoldMatrixA1(angle,M1,M2,d1,lambda);
 Phi=getPhi(angle,d,lambda);
 A2=A1*Phi;
 
-B1 = kr(conj(A1),A1) %khati roa product redudancy occurs here
-% P to be declared here
+A = kr(ctranspose(A1),
+
 
 function A=getManifoldMatrixA1(angle,M1,M2,d1,lambda)
 A=exp(1i*(2*pi*d1/lambda)*[0:M1 ((2:M2).*(M1+1)-1)]'*(sin(angle(1,:)).*sin(angle(2,:))));
@@ -60,5 +60,4 @@ AB=zeros(I*J,F);
 for f=1:F
    ab=B(:,f)*A(:,f).';
    AB(:,f)=ab(:);
-end
 end
