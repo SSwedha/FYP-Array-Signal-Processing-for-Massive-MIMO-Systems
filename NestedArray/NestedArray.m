@@ -2,8 +2,8 @@
 fc=2.4e9;
 c=physconst("lightspeed");
 lambda=(c/fc);
-M1=10;
-M2=10;
+M1=2;
+M2=2;
 M=M2+M1;
 d=lambda/2;
 d1=lambda/2;
@@ -40,6 +40,34 @@ R=[R11b R12b'; R11b R12b];
 
 [eigvec,eigVal]=eigs(R,2*Mb);
 E=eigvec(:,D+1:2*Mb);
+% alp=0:90;
+% bet=0:90;
+% P=[];
+% for i=1:length(alp)
+%     ba=exp(1i*(2*pi*d1/lambda)*(0:Mb-1)'*cos(alp(i)*pi/180));
+%     for j=1:length(bet)
+%         bab=ba*exp(1i*(2*pi*d/lambda)*cos(bet(i)*pi/180));
+%         b=[ba;bab];
+%         P(i,j)=abs(1/((b'*(E*E')*b)));
+%     end
+%     
+% end
+% 
+% surf(alp,bet,P,'EdgeColor',"none");
+% alph=acosd(sin(angle(1,:)).*sin(angle(2,:)))
+% be=acosd(cos(angle(1,:)).*sin(angle(2,:)))
+
+En1=E(1:Mb,:);
+En2=E(Mb+1:2*Mb,:);
+
+v=sym('v');
+b1=power(v,[0:Mb-1]');
+p1=(b1')*(En1*(En1'))*b1;
+p2=(b1')*(En1*(En2'))*b1;
+p3=(b1')*(En2*(En1'))*b1;
+p4=(b1')*(En2*(En2'))*b1;
+det_q=p1*p4-p2*p3;
+[vest,param,cond]=solve(det_q==0,v,"ReturnConditions",true)
 
 
 function uidx=getIndexOfUniqueElements(M1,M2)
