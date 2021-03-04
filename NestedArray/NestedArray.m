@@ -25,10 +25,21 @@ x2=S*A2'+n2;
 
 R11=cov(x1,1);
 z1=R11(:);
-z1=z1(getIndexOfUniqueElements(M1,M2));
+z1b=z1(getIndexOfUniqueElements(M1,M2));
 R12=cov(x2,1);
 z2=R12(:);
-z2=z2(getIndexOfUniqueElements(M1,M2));
+z2b=z2(getIndexOfUniqueElements(M1,M2));
+Mb=M2*(M1+1);
+c=z1b(Mb:2*Mb-1);
+r=flip(z1b(1:Mb));
+R11b=toeplitz(c,r);
+c=z2b(Mb:2*Mb-1);
+r=flip(z2b(1:Mb));
+R12b=toeplitz(c,r);
+R=[R11b R12b'; R11b R12b];
+
+[eigvec,eigVal]=eigs(R,2*Mb);
+E=eigvec(:,D+1:2*Mb);
 
 
 function uidx=getIndexOfUniqueElements(M1,M2)
