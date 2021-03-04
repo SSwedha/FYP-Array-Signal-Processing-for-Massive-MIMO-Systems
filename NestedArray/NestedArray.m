@@ -16,7 +16,7 @@ D=size(S,2);
 sigmansq=10^(-SNR/10);
 n1=sqrt(sigmansq)*(randn(length(t),M)+1i*randn(length(t),M));
 n2=sqrt(sigmansq)*(randn(length(t),M)+1i*randn(length(t),M));
-angle=[10 40 80; 10 30 40].*pi/180;
+angle=[10 40 80; 10 30 40];
 A1=getManifoldMatrixA1(angle,M1,M2,d1,lambda);
 Phi=getPhi(angle,d,lambda);
 A2=A1*Phi;
@@ -26,48 +26,50 @@ x2=S*A2'+n2;
 R11=cov(x1,1);
 z1=R11(:);
 z1b=z1(getIndexOfUniqueElements(M1,M2));
-R12=cov(x2,1);
-z2=R12(:);
+R21=(x2'*x1)/length(t);
+
+z2=R21(:);
 z2b=z2(getIndexOfUniqueElements(M1,M2));
 Mb=M2*(M1+1);
 c=z1b(Mb:2*Mb-1);
 r=flip(z1b(1:Mb));
 R11b=toeplitz(c,r);
+
 c=z2b(Mb:2*Mb-1);
 r=flip(z2b(1:Mb));
-R12b=toeplitz(c,r);
-R=[R11b R12b'; R11b R12b];
+R21b=toeplitz(c,r);
+R=[R11b R21b'; R21b R11b];
 
 [eigvec,eigVal]=eigs(R,2*Mb);
 E=eigvec(:,D+1:2*Mb);
-% alp=0:90;
-% bet=0:90;
-% P=[];
-% for i=1:length(alp)
-%     ba=exp(1i*(2*pi*d1/lambda)*(0:Mb-1)'*cos(alp(i)*pi/180));
-%     for j=1:length(bet)
-%         bab=ba*exp(1i*(2*pi*d/lambda)*cos(bet(i)*pi/180));
-%         b=[ba;bab];
-%         P(i,j)=abs(1/((b'*(E*E')*b)));
-%     end
-%     
-% end
-% 
-% surf(alp,bet,P,'EdgeColor',"none");
+
+th=0:100;
+ph=0:100;
+P=[];
+for m=1:length(th)
+    for n=1:length(ph)
+        ba=exp(1i*(2*pi*d1/lambda)*(0:Mb-1)'*(sind(th(m))*sind(ph(n))));
+        bab=ba*exp(1i*(2*pi*d/lambda)*(cosd(th(m))*sind(ph(n))));
+        b=[ba;bab];
+        P(m,n)=abs(1/(b'*(E*E')*b));
+    end
+end
+
+surf(th,ph,P,'EdgeColor',"none");
 % alph=acosd(sin(angle(1,:)).*sin(angle(2,:)))
 % be=acosd(cos(angle(1,:)).*sin(angle(2,:)))
 
-En1=E(1:Mb,:);
-En2=E(Mb+1:2*Mb,:);
-
-v=sym('v');
-b1=power(v,[0:Mb-1]');
-p1=(b1')*(En1*(En1'))*b1;
-p2=(b1')*(En1*(En2'))*b1;
-p3=(b1')*(En2*(En1'))*b1;
-p4=(b1')*(En2*(En2'))*b1;
-det_q=p1*p4-p2*p3;
-[vest,param,cond]=solve(det_q==0,v,"ReturnConditions",true)
+% En1=E(1:Mb,:);
+% En2=E(Mb+1:2*Mb,:);
+% 
+% v=sym('v');
+% b1=power(v,[0:Mb-1]');
+% p1=(b1')*(En1*(En1'))*b1;
+% p2=(b1')*(En1*(En2'))*b1;
+% p3=(b1')*(En2*(En1'))*b1;
+% p4=(b1')*(En2*(En2'))*b1;
+% det_q=p1*p4-p2*p3;
+% [vest,param,cond]=solve(det_q==0,v,"ReturnConditions",true)
 
 
 function uidx=getIndexOfUniqueElements(M1,M2)
@@ -79,8 +81,8 @@ end
 [~,uidx,~]=unique(cr);
 end
 function A=getManifoldMatrixA1(angle,M1,M2,d1,lambda)
-A=exp(1i*(2*pi*d1/lambda)*[0:M1 ((2:M2).*(M1+1)-1)]'*(sin(angle(1,:)).*sin(angle(2,:))));
+A=exp(1i*(2*pi*d1/lambda)*[0:M1 ((2:M2).*(M1+1)-1)]'*(sind(angle(1,:)).*sind(angle(2,:))));
 end
 function Phi=getPhi(angle,d,lambda)
-Phi=diag(exp(1i*(2*pi*d/lambda)*(cos(angle(1,:)).*sin(angle(2,:)))));
+Phi=diag(exp(1i*(2*pi*d/lambda)*(cosd(angle(1,:)).*sind(angle(2,:)))));
 end
