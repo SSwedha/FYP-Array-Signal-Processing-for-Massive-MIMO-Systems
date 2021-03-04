@@ -18,10 +18,11 @@ S=[cos(2*pi*1e6*t').*cos(2*pi*fc*t')];
 D=size(S,2);
 X=collectPlaneWave(array,S,[real_value],fc);
 
-for SNR = 0.01 : 0.01 : 0.1
+
+for SNR = -20 : 1 : 2
     sum = 0;
-    
-    sigmansq = 1/sqrt(SNR);
+    snr_nw = 10^(SNR/10);
+    sigmansq = 1/sqrt(snr_nw);
 
     for i = 1: iterations
         
@@ -41,4 +42,8 @@ for SNR = 0.01 : 0.01 : 0.1
     it = it+1;
 end
 
-plot(rmse);
+figure;
+plot((-20:1:2),rmse);
+title(" RMSE in ULA");
+xlabel("SNR in db");
+ylabel("RMSE")
