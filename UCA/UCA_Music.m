@@ -1,7 +1,7 @@
 fc=2.4e9;
 c=299792458;
 lambda=(c/fc);
-M=20;
+M=30;
 r = M*lambda/(4*pi);
 SNR=20;
 fs = 10*fc;

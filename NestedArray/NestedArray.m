@@ -1,9 +1,9 @@
 % 2 level Nested array
-fc=2.4e3;
+fc=2.4e9;
 c=physconst("lightspeed");
 lambda=(c/fc);
-M1=3;
-M2=3;
+M1=2;
+M2=2;
 M=M2+M1;
 d=lambda/2;
 d1=lambda/2;
@@ -69,7 +69,7 @@ p2=(b1')*(En1*(En2'))*b1;
 p3=(b1')*(En2*(En1'))*b1;
 p4=(b1')*(En2*(En2'))*b1;
 det_q=p1*p4-p2*p3;
-%[vest,param,cond]=solve(det_q==0,v,"ReturnConditions",true)
+[vest,param,cond]=solve(det_q==0,v,"ReturnConditions",true)
 
 
 function uidx=getIndexOfUniqueElements(M1,M2)
