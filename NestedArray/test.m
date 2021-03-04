@@ -61,11 +61,16 @@ for m=1:length(th)
         ba=exp(1i*(2*pi*d1/lambda)*(0:Mb-1)'*(sind(th(m))*sind(ph(n))));
         bab=ba*exp(1i*(2*pi*d/lambda)*(cosd(th(m))*sind(ph(n))));
         b=[ba;bab];
-        P(m,n)=(abs(1/(b'*(E*E')*b)));
+        P(m,n)=10*log10((abs(1/(b'*(E*E')*b))));
     end
 end
 
+figure;
 surf(th,ph,P,'EdgeColor',"none");
+title("Power Spectrum in TPNA, M1=3, M2=3");
+xlabel("theta");
+ylabel("phi");
+zlabel("Spectrum");
 % alph=acosd(sin(angle(1,:)).*sin(angle(2,:)))
 % be=acosd(cos(angle(1,:)).*sin(angle(2,:)))
 

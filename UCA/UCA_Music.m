@@ -26,7 +26,12 @@ for i = 1:length(th)
     end
 end
 
+figure;
 surf(th,ph,p,'EdgeColor',"none");
+title("Power Spectrum in UCA");
+xlabel("theta");
+ylabel("phi");
+zlabel("Spectrum in db");
 
 function A=getUCASteeringVec(angle,num_elements,r,lambda)
 theta=angle(1,:);

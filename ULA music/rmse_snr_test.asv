@@ -43,7 +43,7 @@ for SNR = -20 : 1 : 2
 end
 
 figure;
-semilogy((-20:1:2),rmse);
+semilo((-20:1:2),rmse);
 title(" RMSE in ULA");
 xlabel("SNR in db");
 ylabel("RMSE")
