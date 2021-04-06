@@ -50,8 +50,8 @@ D = Vb*pinv(Va);
 
 [F,psi] = eigs(D,Mb);
 
-u = getUvector(F,Mb,Mb,d,lambda)
-v = getVvector(psi,Mb,d1,lambda)
+u = getUvector(F,Mb,K,d,lambda)
+v = getVvector(psi,K,d1,lambda)
 
 ThetaMat = asin(sqrt(u.^2 + v.^2))*180/pi
 PhiMat = angle(u+v*1i)*180/pi
