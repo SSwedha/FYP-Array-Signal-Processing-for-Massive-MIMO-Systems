@@ -43,6 +43,10 @@ for i=1:length(th)
     P(i)=abs(1/((a'*E)*(E'*a)));
 end
 plot(th,10*log10(P));
+title('MUSIC for nested array with M_1 = 3 M_2 = 2')
+xlabel('\theta in degrees')
+ylabel('|P(\theta)| in dB')
+grid on
 
 function uidx=getIndexOfUniqueElements(M1,M2)
 narray=[0:M1 ((2:M2).*(M1+1)-1)];
